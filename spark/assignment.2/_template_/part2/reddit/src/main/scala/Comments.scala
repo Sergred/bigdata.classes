@@ -38,11 +38,11 @@ object Comments {
 
 
 		// PATH TO DATA. Check if it is correct.
-		// val dataPath = "/home/big-data/datasets/reddit/2010"
+		val dataPath = "/home/big-data/datasets/reddit/2010"
 		// PATH TO STOP WORDS FILE.
-		// val swPath = "res/stopwords.txt"
-		val dataPath = "projects/advprogramming/bigdata/spark/assignment.2/data/reddit/2010"
-		val swPath = "projects/advprogramming/bigdata/spark/assignment.2/_template_/part2/reddit/res/stopwords.txt"
+		val swPath = "res/stopwords.txt"
+		// val dataPath = "projects/advprogramming/bigdata/spark/assignment.2/data/reddit/2010"
+		// val swPath = "projects/advprogramming/bigdata/spark/assignment.2/_template_/part2/reddit/res/stopwords.txt"
 
 		val df = spark.read.parquet(dataPath) // read all parquet files which are stored in dataPath directory
 		// df.printSchema
