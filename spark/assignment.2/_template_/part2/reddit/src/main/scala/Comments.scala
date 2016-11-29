@@ -79,12 +79,12 @@ object Comments {
 		// --------------------------------------------------------------
 
 		val highest = df.select(weekofyear(from_unixtime($"created_utc")).as("week"), $"ups", $"body").orderBy(desc("ups")).groupBy($"week").agg(first("ups").as("ups"), first("body").as("comment")).orderBy($"week")
-		// selected created_utc and ups columns
+		// selected created_utc, ups and body columns
 		// extracted a week number created_utc
 		// renamed it to "week"
+		// ordered by ups
 		// grouped by week
-		// applied max aggregate function to ups column
-		// join with df and select week, ups and body
+		// applied "first" aggregate function to ups and body columns
 		// order by week
 		highest.write.parquet("weekheights")
 		// The results are written to weekheights parquet file
