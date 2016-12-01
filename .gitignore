@@ -2,3 +2,9 @@
 *.png
 *.pdf
 data/
+spark/assignment.2/_template_/part1/2010-parquet/
+spark/assignment.2/_template_/part2/reddit/project/
+spark/assignment.2/_template_/part2/reddit/results/
+spark/assignment.2/_template_/part2/reddit/target/
+*.tar.gz
+
