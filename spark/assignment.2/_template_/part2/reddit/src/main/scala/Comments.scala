@@ -21,7 +21,7 @@ object Comments {
 		*
 		* The app name is shown in the Spark web UI: localhost:4040
 		 */
-		val conf = new SparkConf().setAppName("Reddit comments")
+		val conf = new SparkConf().setMaster("local[*]").setAppName("Reddit comments")
 
 
 		/** Create Spark context in case you're working with RDDs. */
@@ -38,11 +38,10 @@ object Comments {
 
 
 		// PATH TO DATA. Check if it is correct.
+		// val dataPath = "../../../data/reddit/2010"
 		val dataPath = "/home/big-data/datasets/reddit/2010"
 		// PATH TO STOP WORDS FILE.
 		val swPath = "res/stopwords.txt"
-		// val dataPath = "projects/advprogramming/bigdata/spark/assignment.2/data/reddit/2010"
-		// val swPath = "projects/advprogramming/bigdata/spark/assignment.2/_template_/part2/reddit/res/stopwords.txt"
 
 		val df = spark.read.parquet(dataPath) // read all parquet files which are stored in dataPath directory
 		// df.printSchema
@@ -59,7 +58,7 @@ object Comments {
 		// renamed it to "hour"
 		// grouped by hour
 		// counted it
-		hours.write.csv("commentcount")
+		hours.write.csv("results/commentcount")
 		// The results are written to commentcount.csv
 
 		// --------------------------------------------------------------
@@ -71,7 +70,7 @@ object Comments {
 		// grouped by subreddit
 		// applied avg aggregate function to ups column
 		// ordered by average
-		ups.write.csv("upsaverage")
+		ups.write.csv("results/upsaverage")
 		// The results are written to upsaverage.csv
 
 		// --------------------------------------------------------------
@@ -86,7 +85,7 @@ object Comments {
 		// grouped by week
 		// applied "first" aggregate function to ups and body columns
 		// order by week
-		highest.write.parquet("weekheights")
+		highest.write.parquet("results/weekheights")
 		// The results are written to weekheights parquet file
 
 		// --------------------------------------------------------------
@@ -94,7 +93,7 @@ object Comments {
 		// --------------------------------------------------------------
 
 		val stop = sc.textFile(swPath).collect
-		val count = df.select($"body").explode("body", "word")((line: String) => line.replace(".", " ").replace("-", " ").replace(",", " ").split(" +").filter(!stop.contains(_))).groupBy("word").count.orderBy(desc("count")).limit(200)
+		val count = df.select($"body").flatMap(_(0).toString.replace(".", " ").replace(",", " ").replace("-", " ").split(" +")).groupBy("value").count.filter(r => !stop.contains(r(0).toString)).orderBy(desc("count")).limit(200)
 		// selected body column
 		// excluded ".", ",", "-" and all stop words from each comment
 		// exploded each comment - replaced each record by several records which contain one word out of the comment
@@ -102,7 +101,7 @@ object Comments {
 		// count rows in each group
 		// ordered by count
 		// limited by 200 lines
-		count.write.csv("wordcount")
+		count.write.csv("results/wordcount")
 		// The results are written to wordcount csv file
 
 		// --------------------------------------------------------------
