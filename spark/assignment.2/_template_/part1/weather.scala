@@ -82,4 +82,4 @@ val avgwind = sweden.map(_.wind).mean
 val avgtemp = sweden.groupBy(_.date.substring(4, 6).toInt).map(r => (r._1, r._2.map(_.temp).reduce(_ + _).toDouble/(10*r._2.size))).sortBy(_._2, false).take(12)
 // avgtemp: Array[(Int, Double)] = Array((7,14.879008141329217), (8,14.116240164998855), (6,11.319174477736237), (9,9.910506724485618), (5,8.090628200469126), (10,4.469014933270621), (11,2.2523962374530453), (4,2.1900031114895846), (3,1.4266762959396566), (1,-3.8700073608515937), (2,-5.66338860838438), (12,-6.23192790618755))
 
-sweden.toDf().write.parquet("2010-parquet")
+sweden.toDF().write.parquet("2010-parquet")
