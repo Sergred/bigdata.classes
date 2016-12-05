@@ -25,7 +25,19 @@ def parse(line: String): Weather = {
 val rdd = sc.textFile("/home/big-data/datasets/weather/2012/").map(parse(_))
 // rdd.first
 
-val sweden = rdd.filter(_.lat != 99999).filter(_.lon != 999999).filter(_.elev != 9999).filter(_.wind != 9999).filter(_.temp != 9999).filter(_.pres != 99999).filter(_.squal == "1").filter(_.tqual == "1").filter(_.pqual == "1").filter(_.lat > 55382).filter(_.lat < 69047).filter(_.lon > 11391).filter(_.lon < 24034)
+val sweden = rdd.filter(_.lat != 99999)
+.filter(_.lon != 999999)
+.filter(_.elev != 9999)
+.filter(_.wind != 9999)
+.filter(_.temp != 9999)
+.filter(_.pres != 99999)
+.filter(_.squal == "1")
+.filter(_.tqual == "1")
+.filter(_.pqual == "1")
+.filter(_.lat > 55382)
+.filter(_.lat < 69047)
+.filter(_.lon > 11391)
+.filter(_.lon < 24034)
 
 // import org.apache.spark.storage.StorageLevel._
 // rdd.persist(MEMORY_AND_DISK)
