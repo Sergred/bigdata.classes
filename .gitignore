@@ -8,3 +8,6 @@ spark/assignment.2/_template_/part2/reddit/results/
 spark/assignment.2/_template_/part2/reddit/target/
 *.tar.gz
 
+spark/project/checkpoint/
+spark/project/project/
+spark/project/target/
