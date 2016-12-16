@@ -1,0 +1,1 @@
+while true; do wget -r -q --no-clobber --no-parent www.bbc.com/news/; done
