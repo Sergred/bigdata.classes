@@ -1,0 +1,12 @@
+* * * * * /home/user/log-streaming/loggen/apache-fake-log-gen.py -o LOG -n 200 -d /home/user/log-streaming/loggen/logs/
+* * * * * (sleep 5 ; /home/user/log-streaming/loggen/apache-fake-log-gen.py -o LOG -n 200 -d /home/user/log-streaming/loggen/logs/)
+* * * * * (sleep 10 ; /home/user/log-streaming/loggen/apache-fake-log-gen.py -o LOG -n 200 -d /home/user/log-streaming/loggen/logs/)
+* * * * * (sleep 15 ; /home/user/log-streaming/loggen/apache-fake-log-gen.py -o LOG -n 200 -d /home/user/log-streaming/loggen/logs/)
+* * * * * (sleep 20 ; /home/user/log-streaming/loggen/apache-fake-log-gen.py -o LOG -n 200 -d /home/user/log-streaming/loggen/logs/)
+* * * * * (sleep 25 ; /home/user/log-streaming/loggen/apache-fake-log-gen.py -o LOG -n 200 -d /home/user/log-streaming/loggen/logs/)
+* * * * * (sleep 30 ; /home/user/log-streaming/loggen/apache-fake-log-gen.py -o LOG -n 200 -d /home/user/log-streaming/loggen/logs/)
+* * * * * (sleep 35 ; /home/user/log-streaming/loggen/apache-fake-log-gen.py -o LOG -n 200 -d /home/user/log-streaming/loggen/logs/)
+* * * * * (sleep 40 ; /home/user/log-streaming/loggen/apache-fake-log-gen.py -o LOG -n 200 -d /home/user/log-streaming/loggen/logs/)
+* * * * * (sleep 45 ; /home/user/log-streaming/loggen/apache-fake-log-gen.py -o LOG -n 200 -d /home/user/log-streaming/loggen/logs/)
+* * * * * (sleep 50 ; /home/user/log-streaming/loggen/apache-fake-log-gen.py -o LOG -n 200 -d /home/user/log-streaming/loggen/logs/)
+* * * * * (sleep 55 ; /home/user/log-streaming/loggen/apache-fake-log-gen.py -o LOG -n 200 -d /home/user/log-streaming/loggen/logs/)
