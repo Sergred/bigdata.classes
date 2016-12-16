@@ -1,31 +1,39 @@
-val sc = new SparkContext()
+import org.apache.spark.SparkConf
+import org.apache.spark.SparkContext
+// import org.apache.spark._
 
-// val rdd = sc.wholeTextFiles("home/serg/projects/advprogramming/bigdata/data/")
+import org.apache.spark.streaming.Seconds
+import org.apache.spark.streaming.StreamingContext
 
-val rdd = sc.wholeTextFiles("www.bbc.com/news/")
+object Streamer {
 
-// rdd.first
+  case class Article(val website: String, val keywords: String, val id: Int, val date: String, val title: String, val body: String)
 
-def clear(data:(String, String)):(String, String, String, String, String) = {
-  val meta = data._1.split("/").last.split("-")
-  if (meta.length == 1) ("", "", "", "", "") else {
-    // val parsed = scala.xml.XML.loadString(data._2.replaceAll("&", "&amp;"))
-    val parsed = scala.xml.parsing.XhtmlParser(scala.io.Source.fromString(data._2.))
-    val title = for {
-      el <- parsed \\ "h1"
-      if (el \ "@class").text == "story-body__h1"
-    } yield el.text
-    val date = for {
-      el <- parsed \\ "li"
-      if (el \ "@class").text == "mini-info-list__item"
-    } yield (el \ "div" \ "@data-datetime").text
-    val article = for {
-      el <- parsed \\ "div"
-      if (el \ "@class").text == "story-body__inner" && (el \ "@property").text == "articleBody"
-    } yield el.text
-    (meta.dropRight(1).mkString(" "), meta.last, title(0), date(0), article(0))
+  def parse(data: String): Article = {
+    val parsed = data.split("%%")
+    Article(parsed(0), parsed(1), parsed(2).toInt, parsed(3), parsed(4), parsed(5))
   }
-}
 
-val cleared = rdd.map(r => clear(r)).filter(!_._1.isEmpty)
-cleared.first
+	def main(arg: Array[String]) = {
+
+    val conf = new SparkConf().setMaster("local[*]").setAppName("Article Streamer")
+
+    val ssc = new StreamingContext(conf, Seconds(1))
+    ssc.sparkContext.setLogLevel("WARN")
+
+    // Checkpoint is needed for stateful transformations
+		// Spark should have write permissions on given folder
+		ssc.checkpoint("checkpoint")
+
+    // val dstream = ssc.textFileStream("../../../data/pool/")
+    val dstream = ssc.textFileStream("/home/serg/projects/advprogramming/data/")
+
+    // val data = dstream.window(Seconds(1), Seconds(1))
+
+    val cleared = dstream.map(parse)
+    cleared.map(r => (1, 1)).reduceByKeyAndWindow(_ + _, Seconds(1)).print
+
+    ssc.start
+    ssc.awaitTermination
+	}
+}
